@@ -3,11 +3,11 @@ require 'spec_helper'
 describe Repository do
   let(:repo) { Repository.new 'name' }
 
-  xit 'has a name' do
+  it 'has a name' do
     expect(repo.name).to eq 'name'
   end
 
-  xit 'starts with an empty list of commits and no files' do
+  it 'starts with an empty list of commits and no files' do
     expect(repo.commits).to be_empty
     expect(repo.staged).to be_empty
     expect(repo.unstaged).to be_empty
@@ -15,7 +15,7 @@ describe Repository do
   end
 
   describe '#add' do
-    xit 'starts tracking files' do
+    it 'starts tracking files' do
       file = repo.new_file '/file/path', 'content'
 
       expect(repo.staged.length).to be 0
@@ -29,7 +29,7 @@ describe Repository do
       expect(repo.untracked.length).to be 0
     end
 
-    xit 'knows which files have been modified' do
+    it 'knows which files have been modified' do
       file = repo.new_file '/file/path', 'content'
       repo.add file
       repo.commit 'commit message'
@@ -39,7 +39,7 @@ describe Repository do
       expect(repo.modified_files).to include file
     end
 
-    xit 'stages a file' do
+    it 'stages a file' do
       file = repo.new_file '/file/path', 'content'
       repo.add file
       repo.commit 'commit message'
@@ -59,19 +59,19 @@ describe Repository do
   end
 
   describe '#branch' do
-    xit 'starts on a master branch that has no commits' do
+    it 'starts on a master branch that has no commits' do
       expect(repo.HEAD).to eq :master
       expect(repo.branches[:master]).to be_nil
     end
 
-    xit 'can create a new branch' do
+    it 'can create a new branch' do
       repo.branch :feature
 
       expect(repo.branches).to include :master
       expect(repo.branches).to include :feature
     end
 
-    xit 'can delete a branch with the :D option' do
+    it 'can delete a branch with the :D option' do
       repo.branch :feature
       repo.branch :feature, :D
 
@@ -80,7 +80,7 @@ describe Repository do
   end
 
   describe '#commit' do
-    xit 'records the contents of tracked files so it can determine when they are modified' do
+    it 'records the contents of tracked files so it can determine when they are modified' do
       path = '/first/file'
       file = repo.new_file path, 'content'
       repo.add file
@@ -89,7 +89,7 @@ describe Repository do
       expect(repo.previous_commit_contents[path]).to eq 'content'
     end
 
-    xit 'keeps track of all commits' do
+    it 'keeps track of all commits' do
       file = repo.new_file 'file/path', 'content'
       repo.add file
       commit = repo.commit 'commit message'
